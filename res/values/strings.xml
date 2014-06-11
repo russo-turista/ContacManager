@@ -4,5 +4,6 @@
     <string name="app_name">ContactManger</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="happy_androidish">Happy androidish</string>
 
 </resources>
