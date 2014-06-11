@@ -15,31 +15,28 @@
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-        <ImageButton
+        <Button
             android:id="@+id/allcontactsB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/footer_allcontacts" 
-            android:background="@null" />
+            android:background="@drawable/footer_allcontacts_selector" />
 
-        <ImageButton
+        <Button
             android:id="@+id/welcomeB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/footer_welcome"
-            android:background="@null"  />
+            android:background="@drawable/footer_welcome_selector" />
 
-        <ImageButton
+        <Button
             android:id="@+id/favoriteB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/footer_favorite" 
-            android:background="@null" />
+            android:background="@drawable/footer_favorite_selector" />
 
     </RelativeLayout>
 

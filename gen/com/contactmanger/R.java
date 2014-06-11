@@ -25,10 +25,16 @@ public final class R {
     }
     public static final class drawable {
         public static final int footer_allcontacts=0x7f020000;
-        public static final int footer_background=0x7f020001;
-        public static final int footer_favorite=0x7f020002;
-        public static final int footer_welcome=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
+        public static final int footer_allcontacts_focus=0x7f020001;
+        public static final int footer_allcontacts_selector=0x7f020002;
+        public static final int footer_background=0x7f020003;
+        public static final int footer_favorite=0x7f020004;
+        public static final int footer_favorite_focus=0x7f020005;
+        public static final int footer_favorite_selector=0x7f020006;
+        public static final int footer_welcome=0x7f020007;
+        public static final int footer_welcome_focus=0x7f020008;
+        public static final int footer_welcome_selector=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f090001;
