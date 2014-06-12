@@ -13,16 +13,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.contactmanger.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
         <activity android:name="com.contactmanger.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.contactmanger.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="com.contactmanger.DataInput"></activity>
     </application>
 
 </manifest>

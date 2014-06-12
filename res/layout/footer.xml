@@ -16,7 +16,7 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/allcontactsB"
+            android:id="@+id/btnAllcontactsLis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -24,7 +24,7 @@
             android:background="@drawable/footer_allcontacts_selector" />
 
         <Button
-            android:id="@+id/welcomeB"
+            android:id="@+id/btnWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -32,7 +32,7 @@
             android:background="@drawable/footer_welcome_selector" />
 
         <Button
-            android:id="@+id/favoriteB"
+            android:id="@+id/btnFavoriteList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
