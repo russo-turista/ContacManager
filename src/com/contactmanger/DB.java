@@ -32,6 +32,7 @@ public class DB {
   
   
   private DBHelper mDBHelper;
+  
   private SQLiteDatabase mDB;
   
   public DB(Context ctx) {

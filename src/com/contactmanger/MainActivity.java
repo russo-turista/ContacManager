@@ -12,10 +12,13 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
-	Boolean isFavorite;
+	
 	Button btnWelcomPage;
-	private static final int CM_DELETE_ID = 1;
+	Button btnUploadPhoto;
 	ListView lvData;
+	
+	Boolean isFavorite;
+	
 	DB db;
 	SimpleCursorAdapter scAdapter;
 	Cursor cursor;
@@ -48,7 +51,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		btnWelcomPage = (Button) findViewById(R.id.btnWelcome);
 		btnWelcomPage.setOnClickListener(this);
-
+		
+		btnUploadPhoto = (Button) findViewById(R.id.btnUpload);
+		btnUploadPhoto.setOnClickListener(this);
+		
 		Intent intent = getIntent();
 		isFavorite = intent.getBooleanExtra("favorite", false);
 		if (isFavorite) {
@@ -74,6 +80,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			intent_favorite.putExtra("favorite", true);
 			startActivity(intent_favorite);
 			// Toast.makeText(this, "favoriteB", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.btnUpload:
+			Intent intent_dataInput = new Intent(this, DataInput.class);
+			startActivity(intent_dataInput);
 			break;
 		default:
 			break;
