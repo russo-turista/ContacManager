@@ -2,33 +2,50 @@ package com.contactmanger;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-
 import android.widget.ListView;
-
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
 	Boolean isFavorite;
 	Button btnWelcomPage;
-	String[] names = { "Дарья", "Иван", "Павел", "Василий", "Петр",
-			"Константин", "Алексей", "Антон", "Мария", "Ксения", "Антонина" };
+	private static final int CM_DELETE_ID = 1;
+	ListView lvData;
+	DB db;
+	SimpleCursorAdapter scAdapter;
+	Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		ListView lvMain = (ListView) findViewById(R.id.listContacts);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, names);
-		lvMain.setAdapter(adapter);
 
+		/*
+		 * ListView lvMain = (ListView) findViewById(R.id.listContacts);
+		 * ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		 * android.R.layout.simple_list_item_1, names);
+		 * lvMain.setAdapter(adapter);
+		 */
+
+		db = new DB(this);
+		db.open();
+
+		cursor = db.getAllData();
+		startManagingCursor(cursor);
+
+		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_TXT };
+		int[] to = new int[] { R.id.ivImg, R.id.tvText };
+
+		scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to);
+		lvData = (ListView) findViewById(R.id.listContacts);
+		lvData.setAdapter(scAdapter);
+		
 		btnWelcomPage = (Button) findViewById(R.id.btnWelcome);
 		btnWelcomPage.setOnClickListener(this);
 
@@ -63,5 +80,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 	}
+	 protected void onDestroy() {
+		    super.onDestroy();
+		    // закрываем подключение при выходе
+		    db.close();
+		  }
 
 }
