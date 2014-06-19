@@ -101,19 +101,35 @@ OnClickListener dialogClickListener = new OnClickListener() {
 		
 	}
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
-	    super.onActivityResult(requestCode, resultCode, imageReturnedIntent); 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
+	    super.onActivityResult(requestCode, resultCode, data); 
 	    
 	    Bitmap itemPic = null;
-
-	    switch(requestCode) { 
+	    if (requestCode == CAMERA_REQUEST || requestCode == GALLERY_REQUEST){
+	    	if (resultCode == RESULT_OK){
+	    		Uri selectedImage = data.getData();
+	            try {
+	            	itemPic = Media.getBitmap(getContentResolver(), selectedImage);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	            imgUpload.setImageURI(selectedImage);;
+	            Log.d(LOG_TAG, "path image = " + selectedImage.getPath());
+	    	}	
+	    }
+	    /*switch(requestCode) { 
 	    case CAMERA_REQUEST:
-	    	itemPic = (Bitmap) imageReturnedIntent.getExtras().get("data");
-	    	imgUpload.setImageBitmap(itemPic);
+	    	if (resultCode == RESULT_OK){
+	    		itemPic = (Bitmap) data.getExtras().get("data");
+	    		Uri selectedImage = data.getData();
+	    		imgUpload.setImageBitmap(itemPic);
+	    	}	
 	    	break;
 	    case GALLERY_REQUEST:
 	        if(resultCode == RESULT_OK){  
-	            Uri selectedImage = imageReturnedIntent.getData();
+	            Uri selectedImage = data.getData();
 	            try {
 	            	itemPic = Media.getBitmap(getContentResolver(), selectedImage);
 				} catch (FileNotFoundException e) {
@@ -126,7 +142,7 @@ OnClickListener dialogClickListener = new OnClickListener() {
 	        break;
 	    default:
 	    	break;
-	    }
+	    }*/
 	    	
 	}
 }
