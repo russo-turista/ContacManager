@@ -41,8 +41,10 @@
             android:id="@+id/imgUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="31dp"
-            android:src="@drawable/ic_launcher" />
+            android:adjustViewBounds="true"
+            android:maxHeight="300dip"
+            android:maxWidth="300dip"
+            android:scaleType="centerInside" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -91,7 +93,6 @@
             android:layout_marginRight="22dp"
             android:text="50 charters"
             android:textSize="14sp" />
-
     </RelativeLayout>
 
 </RelativeLayout>

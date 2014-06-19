@@ -8,6 +8,8 @@
         android:id="@+id/ivImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="100dip"
+        android:maxWidth="50dip"
         android:src="@drawable/ic_launcher" >
     </ImageView>
 
