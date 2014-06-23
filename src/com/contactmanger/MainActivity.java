@@ -24,25 +24,25 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	
-	final String LOG_TAG = "myLogs";
+	private final String LOG_TAG = "myLogs";
 	
-	final String HEADER_DIALOG = "Select image source";
-	final int DIALOG_ITEMS = 0;
+	private final String HEADER_DIALOG = "Select image source";
+	private final int DIALOG_ITEMS = 0;
 	
-	final int CAMERA_REQUEST = 0;
-	final int GALLERY_REQUEST = 1;
+	private final int CAMERA_REQUEST = 0;
+	private final int GALLERY_REQUEST = 1;
 	
-	String dataDialog[] = { "From Camera", "From SD Card" };
+	private String dataDialog[] = { "From Camera", "From SD Card" };
 	
-	Button btnWelcomPage;
-	Button btnUploadPhoto;
-	ListView lvData;
+	private Button btnWelcomPage;
+	private Button btnUploadPhoto;
+	private ListView lvData;
 	
-	Boolean isFavorite;
+	private Boolean isFavorite;
 	
-	DB db;
-	SimpleCursorAdapter scAdapter;
-	Cursor cursor;
+	private DB db;
+	private SimpleCursorAdapter scAdapter;
+	private Cursor cursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		cursor = db.getAllData();
 		startManagingCursor(cursor);
 
-		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_TXT };
+		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_DESCTRIPTION };
 		int[] to = new int[] { R.id.ivImg, R.id.tvText };
 
 		scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to);
@@ -164,7 +164,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				startActivity(intent_dataInput);
 	    	}	
 	    }
-	}    
+	}
+	
+	protected void onStart() {
+		super.onStart();
+		
+	}
 	 protected void onDestroy() {
 		    super.onDestroy();
 		    // закрываем подключение при выходе
