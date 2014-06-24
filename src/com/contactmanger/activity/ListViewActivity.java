@@ -1,9 +1,8 @@
-package com.contactmanger;
+package com.contactmanger.activity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,14 +14,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+import com.contactmanger.R;
+import com.contactmanger.database.DB;
+import com.contactmanger.service.CustomBaseAdapter;
+import com.contactmanger.service.CustomCursorLoader;
+
+public class ListViewActivity extends FragmentActivity implements View.OnClickListener, LoaderCallbacks<Cursor>{
 	
 	private final String LOG_TAG = "myLogs";
 	
@@ -36,12 +42,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	
 	private Button btnWelcomPage;
 	private Button btnUploadPhoto;
-	private ListView lvData;
+	private ListView listContacts;
 	
 	private Boolean isFavorite;
 	
 	private DB db;
-	private SimpleCursorAdapter scAdapter;
+	private CustomBaseAdapter cbAdapter;
 	private Cursor cursor;
 
 	@Override
@@ -50,25 +56,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		/*
-		 * ListView lvMain = (ListView) findViewById(R.id.listContacts);
-		 * ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		 * android.R.layout.simple_list_item_1, names);
-		 * lvMain.setAdapter(adapter);
-		 */
-
 		db = new DB(this);
 		db.open();
-
 		cursor = db.getAllData();
 		startManagingCursor(cursor);
+		
+		/*String[] from = new String[] {DB.COLUMN_DESCTRIPTION };
+		int[] to = new int[] {R.id.itemText };*/
 
-		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_DESCTRIPTION };
-		int[] to = new int[] { R.id.ivImg, R.id.tvText };
-
-		scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to);
-		lvData = (ListView) findViewById(R.id.listContacts);
-		lvData.setAdapter(scAdapter);
+		//scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to);
+		cbAdapter = new CustomBaseAdapter(this, cursor);
+		listContacts = (ListView) findViewById(R.id.listContacts);
+		listContacts.setAdapter(cbAdapter);
 		
 		btnWelcomPage = (Button) findViewById(R.id.btnWelcome);
 		btnWelcomPage.setOnClickListener(this);
@@ -86,7 +85,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			Toast.makeText(this, isFavorite.toString(), Toast.LENGTH_LONG)
 					.show();
 		}
-
+		 getSupportLoaderManager().initLoader(0, null, this);
 	}
 	
 	protected Dialog onCreateDialog(int id) {
@@ -129,7 +128,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			// Toast.makeText(this, "allcontactsB", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.btnFavoriteList:
-			Intent intent_favorite = new Intent(this, MainActivity.class);
+			Intent intent_favorite = new Intent(this, ListViewActivity.class);
 			intent_favorite.putExtra("favorite", true);
 			startActivity(intent_favorite);
 			// Toast.makeText(this, "favoriteB", Toast.LENGTH_LONG).show();
@@ -165,15 +164,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	    	}	
 	    }
 	}
-	
+	@Override
 	protected void onStart() {
 		super.onStart();
+		getSupportLoaderManager().getLoader(0).forceLoad();
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		// закрываем подключение при выходе
+		db.close();
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		// TODO Auto-generated method stub
+		return new CustomCursorLoader(this, db);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		scAdapter.swapCursor(cursor);
 		
 	}
-	 protected void onDestroy() {
-		    super.onDestroy();
-		    // закрываем подключение при выходе
-		    db.close();
-		  }
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

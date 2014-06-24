@@ -1,7 +1,12 @@
-package com.contactmanger;
+package com.contactmanger.activity;
 
 
 import java.io.File;
+
+import com.contactmanger.R;
+import com.contactmanger.R.id;
+import com.contactmanger.R.layout;
+import com.contactmanger.database.DB;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -117,9 +122,8 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 		case R.id.btnSend:
 			if (editText.getText() != null || imagePath != null ){
 				db.addRec(editText.getText().toString(), imagePath, isFavorite);
-				Intent intent_mainActivity = new Intent(this, MainActivity.class);
+				Intent intent_mainActivity = new Intent(this, ListViewActivity.class);
 				startActivity(intent_mainActivity);
-				db.close();
 			}
 			break;
 		default:
@@ -133,5 +137,9 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 	    	
 	    }
 	  };
-	
+	  @Override
+		protected void onDestroy() {
+			super.onDestroy();
+			db.close();
+		}
 }
