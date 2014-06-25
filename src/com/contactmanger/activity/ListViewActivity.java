@@ -1,8 +1,6 @@
 package com.contactmanger.activity;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,10 +11,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +20,8 @@ import android.widget.Toast;
 import com.contactmanger.R;
 import com.contactmanger.database.DB;
 import com.contactmanger.service.CustomBaseAdapter;
-import com.contactmanger.service.CustomCursorLoader;
 
-public class ListViewActivity extends FragmentActivity implements View.OnClickListener, LoaderCallbacks<Cursor>{
+public class ListViewActivity extends Activity implements View.OnClickListener{
 	
 	private final String LOG_TAG = "myLogs";
 	
@@ -59,7 +52,7 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 		db = new DB(this);
 		db.open();
 		cursor = db.getAllData();
-		startManagingCursor(cursor);
+		//startManagingCursor(cursor);
 		
 		/*String[] from = new String[] {DB.COLUMN_DESCTRIPTION };
 		int[] to = new int[] {R.id.itemText };*/
@@ -85,7 +78,6 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 			Toast.makeText(this, isFavorite.toString(), Toast.LENGTH_LONG)
 					.show();
 		}
-		 getSupportLoaderManager().initLoader(0, null, this);
 	}
 	
 	protected Dialog onCreateDialog(int id) {
@@ -149,14 +141,6 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 	    if (requestCode == CAMERA_REQUEST || requestCode == GALLERY_REQUEST){
 	    	if (resultCode == RESULT_OK){
 	    		Uri selectedImage = data.getData();
-	            try {
-	            	itemPic = Media.getBitmap(getContentResolver(), selectedImage);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	            //imgUpload.setImageURI(selectedImage);
 	            Log.d(LOG_TAG, "path image = " + selectedImage.getPath());
 	            Intent intent_dataInput = new Intent(this, DataInput.class);
 	            intent_dataInput.putExtra("imagePath", selectedImage);
@@ -167,7 +151,6 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 	@Override
 	protected void onStart() {
 		super.onStart();
-		getSupportLoaderManager().getLoader(0).forceLoad();
 	}
 	@Override
 	protected void onDestroy() {
@@ -176,7 +159,7 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 		db.close();
 	}
 
-	@Override
+	/*@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		// TODO Auto-generated method stub
 		return new CustomCursorLoader(this, db);
@@ -184,7 +167,7 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		scAdapter.swapCursor(cursor);
+		//cbAdapter.swapCursor(cursor);
 		
 	}
 
@@ -192,6 +175,6 @@ public class ListViewActivity extends FragmentActivity implements View.OnClickLi
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 }

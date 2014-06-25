@@ -7,6 +7,7 @@ import com.contactmanger.R;
 import com.contactmanger.R.id;
 import com.contactmanger.R.layout;
 import com.contactmanger.database.DB;
+import com.contactmanger.service.ImageLoader;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -45,6 +46,7 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 	private String imagePath;
 	private boolean isFavorite = false;
 	
+	private ImageLoader imgBitmap = new ImageLoader();
 	private DB db;
 
 	@Override
@@ -77,38 +79,24 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 		
 		Intent intent = getIntent();
 		imageUri = intent.getParcelableExtra("imagePath");
-		Bitmap imgBitmap = null;
 		imagePath = getRealPathFromURI(imageUri);
-		//imgUpload.setImageURI(imagePath);
-		Log.d(LOG_TAG, "path imageFile in DataInput Activity = " + imagePath);
-		File imgFile = new  File(imagePath);
-		Log.d(LOG_TAG, "exists? imageFile in DataInput Activity = " + imgFile.exists());
-		if(imgFile.exists()){
-			imgBitmap = BitmapFactory.decodeFile(imgFile.getPath());
-			Log.d(LOG_TAG, "imageBitmap in DataInput Activity = " + imgBitmap.getHeight());
-			imgUpload.setImageBitmap(imgBitmap);
+		itemPic = imgBitmap.createBitmap(imagePath);
+		
+		if (itemPic != null){
+			imgUpload.setImageBitmap(itemPic);
+		}else {
+			//
 		}
-        /*try {
-        	//itemPic = Media.getBitmap(getContentResolver(), imagePath);
-        	//itemPic = BitmapFactory.decodeFile("path of your img1");
-        	imgUpload.setImageURI(Uri.fromFile();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-        //imgUpload.setImageBitmap(itemPic);
 	}
 
 	public String getRealPathFromURI(Uri contentUri) {
-
-        // can post image
+        
         String [] proj={MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery( contentUri,
-                        proj, // Which columns to return
-                        null,       // WHERE clause; which rows to return (all rows)
-                        null,       // WHERE clause selection arguments (none)
-                        null); // Order-by clause (ascending by name)
+                        proj, 
+                        null,      
+                        null,     
+                        null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
 
@@ -134,7 +122,6 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 	    public void onCheckedChanged(CompoundButton buttonView,
 	        boolean isChecked) {
 	    	Log.d(LOG_TAG, "is Favorite chackBox = " + isChecked);
-	    	
 	    }
 	  };
 	  @Override
