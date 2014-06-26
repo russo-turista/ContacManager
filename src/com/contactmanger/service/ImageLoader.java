@@ -7,10 +7,16 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class ImageLoader {
-	private Bitmap imgBitmap = null;
+	public Bitmap imgBitmap;
+	private String imgPath;
 	private final String LOG_TAG = "myLogs";
+
+	public ImageLoader(String imgPath){
+		this.imgPath = imgPath;
+		this.imgBitmap = createBitmap(imgPath);
+	}
 	
-	public Bitmap createBitmap(String imagePath) {
+	private Bitmap createBitmap(String imagePath) {
 		File imgFile = new File(imagePath);
 		if (imgFile.exists()) {
 			imgBitmap = BitmapFactory.decodeFile(imgFile.getPath());

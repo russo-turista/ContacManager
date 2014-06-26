@@ -46,7 +46,6 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 	private String imagePath;
 	private boolean isFavorite = false;
 	
-	private ImageLoader imgBitmap = new ImageLoader();
 	private DB db;
 
 	@Override
@@ -80,7 +79,7 @@ public class DataInput extends Activity implements android.view.View.OnClickList
 		Intent intent = getIntent();
 		imageUri = intent.getParcelableExtra("imagePath");
 		imagePath = getRealPathFromURI(imageUri);
-		itemPic = imgBitmap.createBitmap(imagePath);
+		itemPic = new ImageLoader(imagePath).imgBitmap;
 		
 		if (itemPic != null){
 			imgUpload.setImageBitmap(itemPic);

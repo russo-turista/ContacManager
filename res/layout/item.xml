@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
@@ -8,18 +8,19 @@
         android:id="@+id/itemImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:maxHeight="100dip"
-        android:maxWidth="50dip">
+        android:maxWidth="100dip" >
     </ImageView>
 
     <TextView
         android:id="@+id/itemText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/itemImg"
         android:text=""
         android:textSize="18sp" >
     </TextView>
 
-</LinearLayout>
+</RelativeLayout>

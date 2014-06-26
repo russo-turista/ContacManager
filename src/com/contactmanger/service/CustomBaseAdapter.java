@@ -1,8 +1,13 @@
 package com.contactmanger.service;
 
+import java.io.File;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +23,7 @@ public class CustomBaseAdapter extends BaseAdapter {
 	private DB db;
 	private LayoutInflater lInflater;
 	private Cursor cursor;
-	private ImageLoader imgBitmap;
-
+	private final String LOG_TAG = "myLogs";
 	public CustomBaseAdapter(Context context, Cursor cursor) {
 		super();
 		this.cursor = cursor;
@@ -36,7 +40,7 @@ public class CustomBaseAdapter extends BaseAdapter {
 
 	@Override
 	public Contacts getItem(int position) {
-		
+
 		if (cursor.moveToPosition(position)) {
 			String imgPath = cursor.getString(cursor
 					.getColumnIndex(DB.COLUMN_IMG));
@@ -60,14 +64,19 @@ public class CustomBaseAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
+
 		if (view == null) {
 			view = lInflater.inflate(R.layout.item, parent, false);
 		}
+
+		String imgPath = getItem(position).getImagePath();
+		Bitmap imgBitmap = null;
+		imgBitmap = new ImageLoader(imgPath).imgBitmap;
+		((ImageView) view.findViewById(R.id.itemImg)).setImageBitmap(imgBitmap);
+		Log.d(LOG_TAG, getItem(position).getDescription());
 		((TextView) view.findViewById(R.id.itemText)).setText(getItem(position)
 				.getDescription());
-		String imgPath = getItem(position).getImagePath();
-		((ImageView) view.findViewById(R.id.itemImg)).setImageBitmap(imgBitmap
-				.createBitmap(getItem(position).getImagePath()));
+
 		return view;
 	}
 }
