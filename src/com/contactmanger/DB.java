@@ -15,16 +15,16 @@ public class DB {
   private static final String DB_TABLE = "mytab";
   
   public static final String COLUMN_ID = "_id";
-  public static final String COLUMN_IMG = "img";
-  public static final String COLUMN_TXT = "txt";
+  public static final String COLUMN_IMG = "imgPath";
+  public static final String COLUMN_DESCTRIPTION = "description";
   public static final String COLUMN_BOOLEAN = "isfavorite";
   private static final String TAG = "myLogs";
   
   private static final String DB_CREATE = 
     "create table " + DB_TABLE + "(" +
       COLUMN_ID + " integer primary key autoincrement, " +
-      COLUMN_IMG + " integer, " +
-      COLUMN_TXT + " text, " +
+      COLUMN_IMG + " text, " +
+      COLUMN_DESCTRIPTION + " text, " +
       COLUMN_BOOLEAN + " boolean" +
     ");";
   
@@ -52,10 +52,10 @@ public class DB {
     return mDB.query(DB_TABLE, null, null, null, null, null, null);
   }
   
-  public void addRec(String txt, int img, boolean isFavorite) {
+  public void addRec(String description, String imgPath, boolean isFavorite) {
     ContentValues cv = new ContentValues();
-    cv.put(COLUMN_TXT, txt);
-    cv.put(COLUMN_IMG, img);
+    cv.put(COLUMN_DESCTRIPTION, description);
+    cv.put(COLUMN_IMG, imgPath);
     cv.put(COLUMN_BOOLEAN, isFavorite);
     mDB.insert(DB_TABLE, null, cv);
   }
@@ -78,7 +78,7 @@ public class DB {
       
       ContentValues cv = new ContentValues();
       for (int i = 1; i < 9; i++) {
-        cv.put(COLUMN_TXT, "sometext " + i);
+        cv.put(COLUMN_DESCTRIPTION, "sometext " + i);
         cv.put(COLUMN_IMG, R.drawable.ic_launcher);
         cv.put(COLUMN_BOOLEAN, false);
         db.insert(DB_TABLE, null, cv);
