@@ -54,12 +54,12 @@ public final class R {
         public static final int headerPhotoUpload=0x7f09000d;
         public static final int imgUpload=0x7f090011;
         public static final int isFavorite=0x7f090016;
-        public static final int ivImg=0x7f090007;
+        public static final int itemImg=0x7f090007;
+        public static final int itemText=0x7f090008;
         public static final int lengthDescription=0x7f090015;
         public static final int listContacts=0x7f09000a;
         public static final int listContent=0x7f090009;
         public static final int relLayoutEditText=0x7f090012;
-        public static final int tvText=0x7f090008;
         public static final int welcomPageRelLayout=0x7f09000b;
     }
     public static final class layout {

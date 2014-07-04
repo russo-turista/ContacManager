@@ -1,7 +1,4 @@
-package com.contactmanger;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
+package com.contactmanger.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,15 +11,17 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+import com.contactmanger.R;
+import com.contactmanger.database.DB;
+import com.contactmanger.service.CustomBaseAdapter;
+
+public class ListViewActivity extends Activity implements View.OnClickListener{
 	
 	private final String LOG_TAG = "myLogs";
 	
@@ -36,12 +35,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	
 	private Button btnWelcomPage;
 	private Button btnUploadPhoto;
-	private ListView lvData;
+	private ListView listContacts;
 	
 	private Boolean isFavorite;
 	
 	private DB db;
-	private SimpleCursorAdapter scAdapter;
+	private CustomBaseAdapter cbAdapter;
 	private Cursor cursor;
 
 	@Override
@@ -50,25 +49,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		/*
-		 * ListView lvMain = (ListView) findViewById(R.id.listContacts);
-		 * ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		 * android.R.layout.simple_list_item_1, names);
-		 * lvMain.setAdapter(adapter);
-		 */
-
 		db = new DB(this);
 		db.open();
-
 		cursor = db.getAllData();
-		startManagingCursor(cursor);
+		//startManagingCursor(cursor);
+		
 
-		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_DESCTRIPTION };
-		int[] to = new int[] { R.id.ivImg, R.id.tvText };
-
-		scAdapter = new SimpleCursorAdapter(this, R.layout.item, cursor, from, to);
-		lvData = (ListView) findViewById(R.id.listContacts);
-		lvData.setAdapter(scAdapter);
+		cbAdapter = new CustomBaseAdapter(this, cursor);
+		listContacts = (ListView) findViewById(R.id.listContacts);
+		listContacts.setAdapter(cbAdapter);
 		
 		btnWelcomPage = (Button) findViewById(R.id.btnWelcome);
 		btnWelcomPage.setOnClickListener(this);
@@ -86,7 +75,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			Toast.makeText(this, isFavorite.toString(), Toast.LENGTH_LONG)
 					.show();
 		}
-
 	}
 	
 	protected Dialog onCreateDialog(int id) {
@@ -129,7 +117,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			// Toast.makeText(this, "allcontactsB", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.btnFavoriteList:
-			Intent intent_favorite = new Intent(this, MainActivity.class);
+			Intent intent_favorite = new Intent(this, ListViewActivity.class);
 			intent_favorite.putExtra("favorite", true);
 			startActivity(intent_favorite);
 			// Toast.makeText(this, "favoriteB", Toast.LENGTH_LONG).show();
@@ -150,14 +138,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	    if (requestCode == CAMERA_REQUEST || requestCode == GALLERY_REQUEST){
 	    	if (resultCode == RESULT_OK){
 	    		Uri selectedImage = data.getData();
-	            try {
-	            	itemPic = Media.getBitmap(getContentResolver(), selectedImage);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	            //imgUpload.setImageURI(selectedImage);
 	            Log.d(LOG_TAG, "path image = " + selectedImage.getPath());
 	            Intent intent_dataInput = new Intent(this, DataInput.class);
 	            intent_dataInput.putExtra("imagePath", selectedImage);
@@ -165,15 +145,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	    	}	
 	    }
 	}
-	
+	@Override
 	protected void onStart() {
 		super.onStart();
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		// закрываем подключение при выходе
+		db.close();
+	}
+
+	/*@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		// TODO Auto-generated method stub
+		return new CustomCursorLoader(this, db);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		//cbAdapter.swapCursor(cursor);
 		
 	}
-	 protected void onDestroy() {
-		    super.onDestroy();
-		    // закрываем подключение при выходе
-		    db.close();
-		  }
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+		
+	}*/
 
 }

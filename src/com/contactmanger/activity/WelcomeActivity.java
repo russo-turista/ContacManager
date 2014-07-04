@@ -1,4 +1,8 @@
-package com.contactmanger;
+package com.contactmanger.activity;
+
+import com.contactmanger.R;
+import com.contactmanger.R.id;
+import com.contactmanger.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,12 +36,12 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			Log.d(TAG, "onClick work");
 		 switch (v.getId()) {
 		    case R.id.btnAllcontactsLis:
-		    	Intent intent_allcontacts = new Intent(this, MainActivity.class);
+		    	Intent intent_allcontacts = new Intent(this, ListViewActivity.class);
 		    	intent_allcontacts.putExtra("favorite", false);
 		    	startActivity(intent_allcontacts);
 		      break;
 		    case R.id.btnFavoriteList:
-		    	Intent intent_favorite = new Intent(this, MainActivity.class);
+		    	Intent intent_favorite = new Intent(this, ListViewActivity.class);
 		    	intent_favorite.putExtra("favorite", true);
 		    	startActivity(intent_favorite);
 		    	break;

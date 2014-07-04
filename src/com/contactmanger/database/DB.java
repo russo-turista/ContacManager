@@ -1,4 +1,5 @@
-package com.contactmanger;
+package com.contactmanger.database;
+
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,16 +17,16 @@ public class DB {
   
   public static final String COLUMN_ID = "_id";
   public static final String COLUMN_IMG = "imgPath";
-  public static final String COLUMN_DESCTRIPTION = "description";
-  public static final String COLUMN_BOOLEAN = "isfavorite";
+  public static final String COLUMN_DESCRIPTION = "description";
+  public static final String COLUMN_ISFAVORITE = "isfavorite";
   private static final String TAG = "myLogs";
   
   private static final String DB_CREATE = 
     "create table " + DB_TABLE + "(" +
       COLUMN_ID + " integer primary key autoincrement, " +
       COLUMN_IMG + " text, " +
-      COLUMN_DESCTRIPTION + " text, " +
-      COLUMN_BOOLEAN + " boolean" +
+      COLUMN_DESCRIPTION + " text, " +
+      COLUMN_ISFAVORITE + " boolean" +
     ");";
   
   private final Context mCtx;
@@ -54,9 +55,9 @@ public class DB {
   
   public void addRec(String description, String imgPath, boolean isFavorite) {
     ContentValues cv = new ContentValues();
-    cv.put(COLUMN_DESCTRIPTION, description);
+    cv.put(COLUMN_DESCRIPTION, description);
     cv.put(COLUMN_IMG, imgPath);
-    cv.put(COLUMN_BOOLEAN, isFavorite);
+    cv.put(COLUMN_ISFAVORITE, isFavorite);
     mDB.insert(DB_TABLE, null, cv);
   }
   
@@ -76,13 +77,14 @@ public class DB {
       db.execSQL(DB_CREATE);
       
       
-      ContentValues cv = new ContentValues();
+     /* ContentValues cv = new ContentValues();
       for (int i = 1; i < 9; i++) {
-        cv.put(COLUMN_DESCTRIPTION, "sometext " + i);
-        cv.put(COLUMN_IMG, R.drawable.ic_launcher);
-        cv.put(COLUMN_BOOLEAN, false);
+        cv.put(COLUMN_DESCRIPTION, "sometext " + i);
+        cv.put(COLUMN_IMG, "");
+        cv.put(COLUMN_ISFAVORITE, 0);
         db.insert(DB_TABLE, null, cv);
-      }
+      }*/
+      
       Log.d(TAG, "Create db suscesfully");
     }
 
